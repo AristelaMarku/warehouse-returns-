@@ -41,10 +41,18 @@
 
 .rma-link {
   cursor: pointer;
-  color: vars.$color-primary;
+  color: vars.$color-dark-navy;
   text-decoration: underline;
+  text-decoration-color: vars.$color-mint;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  font-weight: 500;
 
-  &:hover { opacity: 0.8; }
+  &:hover {
+    color: vars.$color-dark-navy;
+    text-decoration-color: vars.$color-mint;
+    opacity: 0.75;
+  }
 }
 
 .expiring-soon {

@@ -37,11 +37,14 @@ table {
 .rma-link {
   padding: 0;
   min-width: unset;
-  color: vars.$color-primary;
+  color: vars.$color-dark-navy;
   font-weight: 500;
   text-decoration: underline;
+  text-decoration-color: vars.$color-mint;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 
-  &:hover { opacity: 0.8; }
+  &:hover { opacity: 0.75; }
 }
 
 .receipt-status-chip {
