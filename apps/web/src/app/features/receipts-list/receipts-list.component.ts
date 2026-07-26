@@ -9,10 +9,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
 import { ReceiptStatus } from '@warehouse/shared';
 import { RmaApiService } from '../../core/services/rma-api.service';
 import { ReceiptListItem } from '../../core/models/receipt.model';
-import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge.component';
 import { DispositionBadgeComponent } from '../../shared/components/disposition-badge/disposition-badge.component';
 
 @Component({
@@ -20,10 +20,10 @@ import { DispositionBadgeComponent } from '../../shared/components/disposition-b
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    DatePipe, FormsModule,
+    DatePipe, FormsModule, NgClass,
     MatTableModule, MatPaginatorModule, MatFormFieldModule,
     MatSelectModule, MatProgressBarModule, MatButtonModule, MatIconModule,
-    StatusBadgeComponent, DispositionBadgeComponent,
+    DispositionBadgeComponent,
   ],
   templateUrl: './receipts-list.component.html',
   styleUrl: './receipts-list.component.scss',
