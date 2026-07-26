@@ -9,10 +9,10 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migration:generate": "typeorm-ts-node-commonjs migration:generate -d ormconfig.ts",
-    "migration:run": "typeorm-ts-node-commonjs migration:run -d ormconfig.ts",
-    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d ormconfig.ts",
-    "seed": "ts-node src/database/seeds/seed.ts"
+    "migration:generate": "npx typeorm-ts-node-commonjs migration:generate -d ormconfig.ts",
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run -d ormconfig.ts",
+    "migration:revert": "npx typeorm-ts-node-commonjs migration:revert -d ormconfig.ts",
+    "seed": "npx ts-node src/database/seeds/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
