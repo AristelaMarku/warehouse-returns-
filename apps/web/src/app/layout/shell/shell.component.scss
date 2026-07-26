@@ -54,19 +54,46 @@ mat-nav-list a {
 }
 
 // ── Toolbar ───────────────────────────────────────────────────────────────────
-.toolbar-spacer {
-  flex: 1;
+.toolbar-spacer { flex: 1; }
+
+.toolbar-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.user-info {
-  font-size: 14px;
-  margin-right: 12px;
+.profile-avatar {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: vars.$color-white;
+  opacity: 0.85;
+}
+
+.profile-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.profile-name {
+  font-size: 13px;
+  font-weight: 600;
   color: vars.$color-white;
 }
 
-.user-role {
+.profile-role {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+  text-transform: capitalize;
+}
+
+.logout-btn {
+  color: vars.$color-white;
   opacity: 0.75;
-  font-size: 12px;
+  margin-left: 4px;
+
+  &:hover { opacity: 1; }
 }
 
 .page-content {
