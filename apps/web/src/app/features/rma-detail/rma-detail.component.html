@@ -9,8 +9,8 @@
     <mat-card-header>
       <mat-card-title>{{ rma.rmaNumber }}</mat-card-title>
       <mat-card-subtitle>
-        <app-status-badge [status]="rma.status" />
-        @if (rma.disposition) { &nbsp; <app-disposition-badge [disposition]="rma.disposition" /> }
+        <app-status-badge [status]="rma.status"></app-status-badge>
+        @if (rma.disposition) { &nbsp; <app-disposition-badge [disposition]="rma.disposition"></app-disposition-badge> }
       </mat-card-subtitle>
     </mat-card-header>
 
@@ -23,12 +23,55 @@
       <div><strong>Expires</strong><br>{{ rma.expiresAt | date: 'MMM d, yyyy' }}</div>
     </mat-card-content>
 
-    @if (rma.status === RmaStatus.OPEN) {
-      <mat-card-actions>
+    <mat-card-actions class="card-actions">
+      @if (rma.status === RmaStatus.OPEN) {
         <a mat-flat-button color="primary" [routerLink]="['/rmas', rma.id, 'receive']">
           Receive Device →
         </a>
-      </mat-card-actions>
+      }
+      @if (isSupervisor() && rma.status === RmaStatus.OPEN && !showExtendForm()) {
+        <button mat-stroked-button (click)="showExtendForm.set(true)">
+          <mat-icon>schedule</mat-icon> Extend Window
+        </button>
+      }
+    </mat-card-actions>
+
+    @if (isSupervisor() && showExtendForm()) {
+      <div class="extend-form">
+        <p class="extend-label">Add days to the return window:</p>
+        <div class="extend-presets">
+          <button mat-stroked-button
+                  [class.preset-selected]="extendDays() === 7"
+                  (click)="extendDays.set(7)">+7 days</button>
+          <button mat-stroked-button
+                  [class.preset-selected]="extendDays() === 14"
+                  (click)="extendDays.set(14)">+14 days</button>
+          <button mat-stroked-button
+                  [class.preset-selected]="extendDays() === 30"
+                  (click)="extendDays.set(30)">+30 days</button>
+        </div>
+        <mat-form-field appearance="outline" class="days-field">
+          <mat-label>Or enter custom days</mat-label>
+          <input matInput type="number"
+                 [ngModel]="extendDays()"
+                 (ngModelChange)="extendDays.set($event)"
+                 min="1" max="365">
+        </mat-form-field>
+        <div class="extend-actions">
+          <button mat-flat-button color="primary"
+                  (click)="confirmExtend()"
+                  [disabled]="extending()">
+            @if (extending()) {
+              <mat-spinner diameter="18"></mat-spinner>
+            } @else {
+              Confirm Extension
+            }
+          </button>
+          <button mat-button (click)="showExtendForm.set(false)" [disabled]="extending()">
+            Cancel
+          </button>
+        </div>
+      </div>
     }
   </mat-card>
 
@@ -40,7 +83,7 @@
     <table mat-table [dataSource]="receipts" class="mat-elevation-z1 receipt-table">
 
       <ng-container matColumnDef="receivedAt">
-        <th mat-header-cell *matHeaderCellDef>Received At</th>
+        <th mat-header-cell *matHeaderCellDef>Date</th>
         <td mat-cell *matCellDef="let r">{{ r.receivedAt | date: 'MMM d, h:mm a' }}</td>
       </ng-container>
 
@@ -63,7 +106,7 @@
       <ng-container matColumnDef="disposition">
         <th mat-header-cell *matHeaderCellDef>Disposition</th>
         <td mat-cell *matCellDef="let r">
-          @if (r.disposition) { <app-disposition-badge [disposition]="r.disposition" /> }
+          @if (r.disposition) { <app-disposition-badge [disposition]="r.disposition"></app-disposition-badge> }
           @else { — }
         </td>
       </ng-container>

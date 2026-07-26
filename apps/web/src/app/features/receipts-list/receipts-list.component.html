@@ -1,8 +1,7 @@
 <div class="page-header">
   <h2>Received Devices</h2>
-
   <mat-form-field appearance="outline" class="status-filter">
-    <mat-label>Filter by Status</mat-label>
+    <mat-label>Filter by Latest Status</mat-label>
     <mat-select [(ngModel)]="statusFilter" (ngModelChange)="onStatusChange()">
       <mat-option value="">All</mat-option>
       <mat-option [value]="ReceiptStatus.SUCCESS">Success</mat-option>
@@ -16,17 +15,26 @@
 }
 
 <div class="table-wrapper">
-  <table mat-table [dataSource]="receipts()">
+  <table mat-table [dataSource]="rmaGroups()">
 
-    <ng-container matColumnDef="receivedAt">
-      <th mat-header-cell *matHeaderCellDef>Date</th>
-      <td mat-cell *matCellDef="let row">{{ row.receivedAt | date:'short' }}</td>
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row">
+        <mat-icon class="expand-icon">
+          {{ expandedRmaId() === row.rmaId ? 'expand_less' : 'expand_more' }}
+        </mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="latestReceivedAt">
+      <th mat-header-cell *matHeaderCellDef>Latest Date</th>
+      <td mat-cell *matCellDef="let row">{{ row.latestReceivedAt | date:'short' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="rmaNumber">
       <th mat-header-cell *matHeaderCellDef>RMA #</th>
       <td mat-cell *matCellDef="let row">
-        <button mat-button class="rma-link" (click)="viewRma(row.rmaId)">
+        <button mat-button class="rma-link" (click)="viewRma($event, row.rmaId)">
           {{ row.rmaNumber }}
         </button>
       </td>
@@ -42,39 +50,84 @@
       <td mat-cell *matCellDef="let row">{{ row.deviceModel }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="receivedSerialNumber">
-      <th mat-header-cell *matHeaderCellDef>Serial #</th>
-      <td mat-cell *matCellDef="let row" class="serial-cell">{{ row.receivedSerialNumber }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
+    <ng-container matColumnDef="latestStatus">
+      <th mat-header-cell *matHeaderCellDef>Latest Status</th>
       <td mat-cell *matCellDef="let row">
-        <span class="receipt-status-chip" [ngClass]="row.status.toLowerCase()">
-          {{ row.status === 'SUCCESS' ? 'Success' : 'Rejected' }}
+        <span class="receipt-status-chip" [ngClass]="row.latestStatus.toLowerCase()">
+          {{ row.latestStatus === 'SUCCESS' ? 'Success' : 'Rejected' }}
         </span>
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="disposition">
-      <th mat-header-cell *matHeaderCellDef>Disposition</th>
+    <ng-container matColumnDef="attemptCount">
+      <th mat-header-cell *matHeaderCellDef>Attempts</th>
       <td mat-cell *matCellDef="let row">
-        @if (row.disposition) {
-          <app-disposition-badge [disposition]="row.disposition"></app-disposition-badge>
-        }
-        @if (row.rejectionReason) {
-          <span class="rejection-reason" [title]="row.rejectionReason">{{ row.rejectionReason }}</span>
-        }
+        <span class="attempt-badge">{{ row.attemptCount }}</span>
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="receivedBy">
-      <th mat-header-cell *matHeaderCellDef>Received By</th>
-      <td mat-cell *matCellDef="let row">{{ row.receivedByDisplayName }}</td>
+    <!-- Expandable detail row spanning all columns -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let row" [attr.colspan]="columns.length">
+        <div class="attempts-panel" [class.open]="expandedRmaId() === row.rmaId">
+          <p class="attempts-heading">Receipt History</p>
+          <table mat-table [dataSource]="row.attempts" class="attempts-table">
+
+            <ng-container matColumnDef="receivedAt">
+              <th mat-header-cell *matHeaderCellDef>Date</th>
+              <td mat-cell *matCellDef="let a">{{ a.receivedAt | date:'short' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="serial">
+              <th mat-header-cell *matHeaderCellDef>Serial</th>
+              <td mat-cell *matCellDef="let a"><code>{{ a.receivedSerialNumber }}</code></td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let a">
+                <span class="receipt-status-chip" [ngClass]="a.status.toLowerCase()">
+                  {{ a.status === 'SUCCESS' ? 'Success' : 'Rejected' }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="disposition">
+              <th mat-header-cell *matHeaderCellDef>Disposition</th>
+              <td mat-cell *matCellDef="let a">
+                @if (a.disposition) {
+                  <app-disposition-badge [disposition]="a.disposition"></app-disposition-badge>
+                } @else {
+                  <span>—</span>
+                }
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="rejectionReason">
+              <th mat-header-cell *matHeaderCellDef>Rejection Reason</th>
+              <td mat-cell *matCellDef="let a" class="rejection-reason">
+                {{ a.rejectionReason ?? '—' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="receivedBy">
+              <th mat-header-cell *matHeaderCellDef>Received By</th>
+              <td mat-cell *matCellDef="let a">{{ a.receivedByDisplayName }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="attemptColumns"></tr>
+            <tr mat-row *matRowDef="let r; columns: attemptColumns;"></tr>
+          </table>
+        </div>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns"
+        (click)="toggle(row.rmaId)"
+        class="summary-row">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell empty-state" [attr.colspan]="columns.length">

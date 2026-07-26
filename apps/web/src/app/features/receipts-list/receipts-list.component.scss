@@ -14,9 +14,7 @@
   }
 }
 
-.status-filter {
-  width: 200px;
-}
+.status-filter { width: 200px; }
 
 .table-wrapper {
   overflow-x: auto;
@@ -24,14 +22,21 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-table {
-  width: 100%;
+table { width: 100%; }
+
+// ── Summary row ──────────────────────────────────────────────────────────────
+.summary-row {
+  cursor: pointer;
+
+  &:hover { background: vars.$color-surface; }
 }
 
-.serial-cell {
-  font-family: monospace;
-  font-size: 0.85rem;
-  letter-spacing: 0.04em;
+.expand-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: vars.$color-dark-navy;
+  opacity: 0.6;
 }
 
 .rma-link {
@@ -47,6 +52,20 @@ table {
   &:hover { opacity: 0.75; }
 }
 
+.attempt-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(11, 31, 58, 0.08);
+  color: vars.$color-dark-navy;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+// ── Receipt status chips ──────────────────────────────────────────────────────
 .receipt-status-chip {
   display: inline-block;
   padding: 2px 10px;
@@ -56,28 +75,46 @@ table {
   letter-spacing: 0.03em;
   text-transform: uppercase;
 
-  &.success {
-    background: #e8f5e9;
-    color: #2e7d32;
-  }
+  &.success  { background: #e8f5e9; color: #2e7d32; }
+  &.rejected { background: #fce4ec; color: #c62828; }
+}
 
-  &.rejected {
-    background: #fce4ec;
-    color: #c62828;
-  }
+// ── Expandable detail row ─────────────────────────────────────────────────────
+.detail-row td {
+  padding: 0 !important;
+  border-bottom: none !important;
+}
+
+.attempts-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.25s ease-out;
+
+  &.open { max-height: 600px; }
+}
+
+.attempts-heading {
+  margin: 12px 16px 8px;
+  font-weight: 600;
+  font-size: 13px;
+  color: vars.$color-dark-navy;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.attempts-table {
+  width: calc(100% - 32px);
+  margin: 0 16px 12px;
+  background: vars.$color-surface;
+  border-radius: 4px;
 }
 
 .rejection-reason {
   font-size: 0.8rem;
-  color: vars.$color-warn-text;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
-  max-width: 200px;
-  vertical-align: middle;
+  color: vars.$color-error;
 }
 
+// ── Empty state ───────────────────────────────────────────────────────────────
 .empty-state {
   display: flex;
   flex-direction: column;

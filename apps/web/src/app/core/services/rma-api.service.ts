@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { RmaStatus } from '@warehouse/shared';
 import { environment } from '../../../environments/environment';
 import { PaginatedRmas, RmaModel } from '../models/rma.model';
-import { PaginatedReceipts, ReceiptModel } from '../models/receipt.model';
+import { PaginatedRmaReceiptGroups, ReceiptModel } from '../models/receipt.model';
 import { ReceiptStatus } from '@warehouse/shared';
 
 export interface ReceiveDevicePayload {
@@ -54,7 +54,7 @@ export class RmaApiService {
     return this.http.get<unknown[]>(`${this.base}/${rmaId}/audit`);
   }
 
-  listReceipts(page = 1, limit = 20, status?: ReceiptStatus): Observable<PaginatedReceipts> {
+  listReceipts(page = 1, limit = 20, status?: ReceiptStatus): Observable<PaginatedRmaReceiptGroups> {
     let params = new HttpParams()
       .set('page', page)
       .set('limit', limit);
