@@ -11,19 +11,6 @@
         <span matListItemTitle>Received Devices</span>
       </a>
     </mat-nav-list>
-
-    <div class="sidenav-footer">
-      <div class="sidenav-user">
-        <mat-icon class="sidenav-user-icon">account_circle</mat-icon>
-        <div class="sidenav-user-info">
-          <span class="sidenav-user-name">{{ auth.currentUser()?.displayName || auth.currentUser()?.username }}</span>
-          <span class="sidenav-user-role">{{ auth.currentUser()?.role }}</span>
-        </div>
-      </div>
-      <button mat-icon-button class="sidenav-logout" (click)="auth.logout()" title="Logout">
-        <mat-icon>logout</mat-icon>
-      </button>
-    </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
