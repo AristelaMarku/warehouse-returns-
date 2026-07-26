@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/auth/auth.guard';
+import { supervisorGuard } from './core/auth/supervisor.guard';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,14 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/receive-device/receive-device.component').then(
             (m) => m.ReceiveDeviceComponent,
+          ),
+      },
+      {
+        path: 'receipts',
+        canActivate: [supervisorGuard],
+        loadComponent: () =>
+          import('./features/receipts-list/receipts-list.component').then(
+            (m) => m.ReceiptsListComponent,
           ),
       },
     ],

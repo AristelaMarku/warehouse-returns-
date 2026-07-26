@@ -6,6 +6,12 @@
         <mat-icon matListItemIcon>assignment_return</mat-icon>
         <span matListItemTitle>Returns</span>
       </a>
+      @if (auth.currentUser()?.role === 'supervisor' || auth.currentUser()?.role === 'admin') {
+        <a mat-list-item routerLink="/receipts" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>inventory</mat-icon>
+          <span matListItemTitle>Received Devices</span>
+        </a>
+      }
     </mat-nav-list>
   </mat-sidenav>
 

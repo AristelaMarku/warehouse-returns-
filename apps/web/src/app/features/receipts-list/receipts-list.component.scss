@@ -1,0 +1,72 @@
+@use 'styles/variables' as vars;
+
+:host { display: block; }
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h2 {
+    margin: 0;
+    color: vars.$color-dark-navy;
+  }
+}
+
+.status-filter {
+  width: 200px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+table {
+  width: 100%;
+}
+
+.serial-cell {
+  font-family: monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+
+.rma-link {
+  padding: 0;
+  min-width: unset;
+  color: vars.$color-primary;
+  font-weight: 500;
+  text-decoration: underline;
+
+  &:hover { opacity: 0.8; }
+}
+
+.rejection-reason {
+  font-size: 0.8rem;
+  color: vars.$color-warn-text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 200px;
+  vertical-align: middle;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px;
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.empty-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 8px;
+  color: #bdbdbd;
+}
