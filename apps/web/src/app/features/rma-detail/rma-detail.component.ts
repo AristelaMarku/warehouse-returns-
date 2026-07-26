@@ -31,7 +31,7 @@ export class RmaDetailComponent implements OnInit {
 
   protected readonly rma = signal<RmaModel | null>(null);
   protected readonly loading = signal(true);
-  protected readonly receiptColumns = ['receivedAt', 'serial', 'status', 'disposition', 'rejectionReason'];
+  protected readonly receiptColumns = ['receivedAt', 'serial', 'status', 'disposition', 'rejectionReason', 'receivedBy'];
 
   protected readonly RmaStatus = RmaStatus;
   protected readonly ReceiptStatus = ReceiptStatus;

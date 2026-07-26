@@ -1,6 +1,16 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Disposition, ReturnReason, RmaStatus } from '@warehouse/shared';
+import { Disposition, ReceiptStatus, ReturnReason, RmaStatus } from '@warehouse/shared';
 import { RmaEntity } from '../entities/rma.entity';
+
+export class RmaReceiptSummary {
+  receiptId: string;
+  receivedAt: string;
+  receivedSerialNumber: string;
+  status: ReceiptStatus;
+  disposition: Disposition | null;
+  rejectionReason: string | null;
+  receivedByDisplayName: string;
+}
 
 export class RmaResponseDto {
   @ApiProperty() id: string;
@@ -18,6 +28,7 @@ export class RmaResponseDto {
   @ApiProperty() createdAt: string;
   @ApiProperty() updatedAt: string;
   @ApiPropertyOptional() closedAt: string | null;
+  @ApiProperty({ type: [RmaReceiptSummary] }) receipts: RmaReceiptSummary[];
 
   static fromEntity(rma: RmaEntity): RmaResponseDto {
     const dto = new RmaResponseDto();
@@ -38,6 +49,15 @@ export class RmaResponseDto {
     dto.createdAt = rma.createdAt.toISOString();
     dto.updatedAt = rma.updatedAt.toISOString();
     dto.closedAt = rma.closedAt ? rma.closedAt.toISOString() : null;
+    dto.receipts = (rma.receipts ?? []).map((r) => ({
+      receiptId: r.id,
+      receivedAt: r.receivedAt.toISOString(),
+      receivedSerialNumber: r.receivedSerialNumber,
+      status: r.status,
+      disposition: r.disposition,
+      rejectionReason: r.rejectionReason,
+      receivedByDisplayName: r.receivedByUser?.displayName ?? r.receivedByUserId,
+    }));
     return dto;
   }
 }
