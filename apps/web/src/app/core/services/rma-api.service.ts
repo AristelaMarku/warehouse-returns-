@@ -30,7 +30,8 @@ export class RmaApiService {
     if (query.search) params = params.set('search', query.search);
     if (query.page) params = params.set('page', query.page);
     if (query.limit) params = params.set('limit', query.limit);
-    return this.http.get<PaginatedRmas>(this.base, { params });
+    const headers = new HttpHeaders({ 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' });
+    return this.http.get<PaginatedRmas>(this.base, { params, headers });
   }
 
   getRma(id: string): Observable<RmaModel> {
