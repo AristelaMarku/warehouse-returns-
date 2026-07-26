@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RmaStatus } from '@warehouse/shared';
 import { environment } from '../../../environments/environment';
@@ -59,6 +59,7 @@ export class RmaApiService {
       .set('page', page)
       .set('limit', limit);
     if (status) params = params.set('status', status);
-    return this.http.get<PaginatedRmaReceiptGroups>(`${environment.apiBaseUrl}/receipts`, { params });
+    const headers = new HttpHeaders({ 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' });
+    return this.http.get<PaginatedRmaReceiptGroups>(`${environment.apiBaseUrl}/receipts`, { params, headers });
   }
 }
