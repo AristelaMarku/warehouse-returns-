@@ -75,45 +75,6 @@
     }
   </mat-card>
 
-  @if (isSupervisor()) {
-    <h3 class="section-heading">Audit Log</h3>
-    @if (auditLog().length === 0) {
-      <p class="empty-state">No audit entries yet.</p>
-    } @else {
-      <table mat-table [dataSource]="auditLog()" class="mat-elevation-z1 audit-table">
-
-        <ng-container matColumnDef="occurredAt">
-          <th mat-header-cell *matHeaderCellDef>Time</th>
-          <td mat-cell *matCellDef="let e">{{ e.occurredAt | date:'MMM d, h:mm a' }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
-          <td mat-cell *matCellDef="let e"><span class="audit-action">{{ e.action }}</span></td>
-        </ng-container>
-
-        <ng-container matColumnDef="actor">
-          <th mat-header-cell *matHeaderCellDef>Actor</th>
-          <td mat-cell *matCellDef="let e">{{ e.actorUser?.displayName ?? '—' }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="changes">
-          <th mat-header-cell *matHeaderCellDef>Changes</th>
-          <td mat-cell *matCellDef="let e" class="audit-changes">
-            @if (e.beforeState) {
-              <span class="audit-before">{{ formatState(e.beforeState) }}</span>
-              <span class="audit-arrow">→</span>
-            }
-            <span class="audit-after">{{ formatState(e.afterState) }}</span>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="auditColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: auditColumns;"></tr>
-      </table>
-    }
-  }
-
   <h3 class="section-heading">Receipt History</h3>
 
   @if (receipts.length === 0) {
@@ -170,5 +131,44 @@
       <tr mat-header-row *matHeaderRowDef="receiptColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: receiptColumns;"></tr>
     </table>
+  }
+
+  @if (isSupervisor()) {
+    <h3 class="section-heading">Audit Log</h3>
+    @if (auditLog().length === 0) {
+      <p class="empty-state">No audit entries yet.</p>
+    } @else {
+      <table mat-table [dataSource]="auditLog()" class="mat-elevation-z1 audit-table">
+
+        <ng-container matColumnDef="occurredAt">
+          <th mat-header-cell *matHeaderCellDef>Time</th>
+          <td mat-cell *matCellDef="let e">{{ e.occurredAt | date:'MMM d, h:mm a' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let e"><span class="audit-action">{{ e.action }}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef="actor">
+          <th mat-header-cell *matHeaderCellDef>Actor</th>
+          <td mat-cell *matCellDef="let e">{{ e.actorUser?.displayName ?? '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="changes">
+          <th mat-header-cell *matHeaderCellDef>Changes</th>
+          <td mat-cell *matCellDef="let e" class="audit-changes">
+            @if (e.beforeState) {
+              <span class="audit-before">{{ formatState(e.beforeState) }}</span>
+              <span class="audit-arrow">→</span>
+            }
+            <span class="audit-after">{{ formatState(e.afterState) }}</span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="auditColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: auditColumns;"></tr>
+      </table>
+    }
   }
 }
