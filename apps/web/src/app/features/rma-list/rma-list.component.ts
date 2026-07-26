@@ -4,8 +4,9 @@ import {
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { PaginatorComponent } from '../../shared/components/paginator/paginator.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,10 +26,11 @@ import { ReturnReasonPipe } from '../../shared/pipes/return-reason.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    MatTableModule, MatPaginatorModule, MatFormFieldModule,
+    MatTableModule, MatFormFieldModule,
     MatInputModule, MatIconModule, MatButtonModule,
     MatProgressBarModule, MatTooltipModule,
     StatusBadgeComponent, ReturnReasonPipe, DatePipe,
+    PaginatorComponent,
   ],
   templateUrl: './rma-list.component.html',
   styleUrl: './rma-list.component.scss',

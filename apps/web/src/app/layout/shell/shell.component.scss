@@ -11,28 +11,41 @@ mat-sidenav-container {
 
 mat-sidenav {
   width: 220px;
-  padding: 16px 0;
-  background: vars.$color-dark-navy;
-  color: vars.$color-white;
+  padding: 0;
+  background: vars.$color-white;
+  border-right: 1px solid #e0e0e0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.06);
 }
 
 .sidenav-logo {
-  padding: 16px;
+  padding: 18px 16px;
   font-weight: 700;
   font-size: 15px;
   color: vars.$color-white;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: vars.$color-primary;
+  letter-spacing: 0.02em;
   margin-bottom: 8px;
 }
 
 mat-nav-list a {
-  color: rgba(255, 255, 255, 0.85);
+  color: vars.$color-dark-navy;
+  border-left: 3px solid transparent;
+  margin: 2px 8px;
+  border-radius: 6px;
+
+  mat-icon { color: vars.$color-dark-navy; opacity: 0.7; }
 
   &.active-link {
-    color: vars.$color-mint;
-    background: rgba(139, 221, 214, 0.1);
+    color: vars.$color-primary;
+    background: rgba(0, 87, 187, 0.08);
+    border-left-color: vars.$color-primary;
+    font-weight: 600;
 
-    mat-icon { color: vars.$color-mint; }
+    mat-icon { color: vars.$color-primary; opacity: 1; }
+  }
+
+  &:hover:not(.active-link) {
+    background: vars.$color-surface;
   }
 }
 

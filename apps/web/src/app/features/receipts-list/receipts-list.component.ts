@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
+import { PaginatorComponent } from '../../shared/components/paginator/paginator.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -21,9 +22,9 @@ import { DispositionBadgeComponent } from '../../shared/components/disposition-b
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     DatePipe, FormsModule, NgClass,
-    MatTableModule, MatPaginatorModule, MatFormFieldModule,
+    MatTableModule, MatFormFieldModule,
     MatSelectModule, MatProgressBarModule, MatButtonModule, MatIconModule,
-    DispositionBadgeComponent,
+    DispositionBadgeComponent, PaginatorComponent,
   ],
   templateUrl: './receipts-list.component.html',
   styleUrl: './receipts-list.component.scss',

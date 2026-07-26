@@ -1,6 +1,10 @@
 @use 'styles/variables' as vars;
 
-:host { display: block; }
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 112px);
+}
 
 .page-header {
   display: flex;
@@ -15,7 +19,7 @@
 }
 
 .search-field {
-  width: 320px;
+  width: 440px;
 }
 
 .full-width { width: 100%; }
