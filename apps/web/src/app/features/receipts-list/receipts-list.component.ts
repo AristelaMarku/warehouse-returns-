@@ -76,6 +76,8 @@ export class ReceiptsListComponent implements OnInit {
     this.load();
   }
 
+  protected readonly isDetailRow = () => true;
+
   protected viewRma(event: MouseEvent, rmaId: string): void {
     event.stopPropagation();
     this.router.navigate(['/rmas', rmaId]);
