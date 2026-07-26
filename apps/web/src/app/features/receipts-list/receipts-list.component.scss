@@ -1,6 +1,10 @@
 @use 'styles/variables' as vars;
 
-:host { display: block; }
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
 
 .page-header {
   display: flex;
@@ -22,7 +26,11 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-table { width: 100%; }
+table {
+  width: 100%;
+  --mat-table-row-item-container-height: 52px;
+  --mat-table-header-container-height: 48px;
+}
 
 // ── Summary row ──────────────────────────────────────────────────────────────
 .summary-row {
@@ -42,6 +50,7 @@ table { width: 100%; }
 .rma-link {
   padding: 0;
   min-width: unset;
+  --mdc-text-button-label-text-color: #{vars.$color-dark-navy};
   color: vars.$color-dark-navy;
   font-weight: 700;
   text-decoration: underline;
@@ -80,9 +89,13 @@ table { width: 100%; }
 }
 
 // ── Expandable detail row ─────────────────────────────────────────────────────
-.detail-row td {
-  padding: 0 !important;
-  border-bottom: none !important;
+.detail-row {
+  height: 0;
+
+  td {
+    padding: 0 !important;
+    border-bottom: none !important;
+  }
 }
 
 .attempts-panel {
@@ -113,6 +126,8 @@ table { width: 100%; }
   font-size: 0.8rem;
   color: vars.$color-error;
 }
+
+app-paginator { margin-top: auto; }
 
 // ── Empty state ───────────────────────────────────────────────────────────────
 .empty-state {
