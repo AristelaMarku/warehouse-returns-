@@ -34,9 +34,15 @@ html, body {
   background: vars.$color-surface;
 }
 
+// ── Primary button — force navy regardless of azure-palette theme base ──────
+.mat-mdc-unelevated-button.mat-primary {
+  --mdc-filled-button-container-color: #{vars.$color-dark-navy};
+  --mdc-filled-button-label-text-color: #{vars.$color-white};
+}
+
 // ── Status badge variants (shared across status-badge component) ──────────────
 .status-chip {
-  &.open      { background: rgba(0, 87, 187, 0.1); color: vars.$color-primary; }
+  &.open      { background: rgba(11, 31, 58, 0.08); color: vars.$color-dark-navy; }
   &.received  { background: rgba(139, 221, 214, 0.3); color: vars.$color-dark-navy; }
   &.cancelled { background: #fce4ec; color: vars.$color-error; }
   &.expired   { background: vars.$color-warn-bg; color: vars.$color-warn-text; }
