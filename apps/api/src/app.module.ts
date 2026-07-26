@@ -14,6 +14,7 @@ import { ReceiptsModule } from './modules/receipts/receipts.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: ['../../.env', '.env'],
       load: [databaseConfig, jwtConfig],
       validationSchema: Joi.object({
         DB_HOST: Joi.string().default('localhost'),
