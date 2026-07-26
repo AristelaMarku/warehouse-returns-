@@ -22,7 +22,7 @@ mat-sidenav {
   font-weight: 700;
   font-size: 15px;
   color: vars.$color-white;
-  background: vars.$color-primary;
+  background: vars.$color-dark-navy;
   letter-spacing: 0.02em;
   margin-bottom: 8px;
 }
@@ -33,19 +33,23 @@ mat-nav-list a {
   margin: 2px 8px;
   border-radius: 6px;
 
-  mat-icon { color: vars.$color-dark-navy; opacity: 0.7; }
+  mat-icon { color: vars.$color-dark-navy; opacity: 0.6; }
 
   &.active-link {
-    color: vars.$color-primary;
-    background: rgba(0, 87, 187, 0.08);
-    border-left-color: vars.$color-primary;
-    font-weight: 600;
+    color: vars.$color-dark-navy;
+    background: rgba(11, 31, 58, 0.07);
+    border-left-color: vars.$color-dark-navy;
+    font-weight: 700;
 
-    mat-icon { color: vars.$color-primary; opacity: 1; }
+    mat-icon { color: vars.$color-dark-navy; opacity: 1; }
   }
 
   &:hover:not(.active-link) {
-    background: vars.$color-surface;
+    background: rgba(139, 221, 214, 0.2);
+    border-left-color: vars.$color-mint;
+    color: vars.$color-dark-navy;
+
+    mat-icon { opacity: 1; }
   }
 }
 

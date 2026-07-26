@@ -20,10 +20,10 @@ $warehouse-theme: mat.define-theme((
 
 :root {
   // Brand color overrides on Material system tokens
-  --mat-sys-primary: #{vars.$color-primary};
+  --mat-sys-primary: #{vars.$color-dark-navy};
   --mat-sys-on-primary: #{vars.$color-white};
   --mat-sys-surface: #{vars.$color-white};
-  --mat-toolbar-container-background-color: #{vars.$color-primary};
+  --mat-toolbar-container-background-color: #{vars.$color-dark-navy};
   @include mat.all-component-themes($warehouse-theme);
 }
 
