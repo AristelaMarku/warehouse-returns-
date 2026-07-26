@@ -59,6 +59,6 @@ export class RmaApiService {
       .set('page', page)
       .set('limit', limit);
     if (status) params = params.set('status', status);
-    return this.http.get<PaginatedReceipts>(`${environment.apiBaseUrl}/receipts`, { params });
+    return this.http.get<PaginatedRmaReceiptGroups>(`${environment.apiBaseUrl}/receipts`, { params });
   }
 }
