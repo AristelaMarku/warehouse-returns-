@@ -23,7 +23,7 @@ $warehouse-theme: mat.define-theme((
   --mat-sys-primary: #{vars.$color-dark-navy};
   --mat-sys-on-primary: #{vars.$color-white};
   --mat-sys-surface: #{vars.$color-white};
-  --mat-toolbar-container-background-color: #{vars.$color-dark-navy};
+  --mat-toolbar-container-background-color: #{vars.$color-white};
   @include mat.all-component-themes($warehouse-theme);
 }
 
@@ -42,7 +42,7 @@ html, body {
 
 // ── Status badge variants (shared across status-badge component) ──────────────
 .status-chip {
-  &.open      { background: rgba(11, 31, 58, 0.08); color: vars.$color-dark-navy; }
+  &.open      { background: vars.$color-mint; color: vars.$color-dark-navy; }
   &.received  { background: rgba(139, 221, 214, 0.3); color: vars.$color-dark-navy; }
   &.cancelled { background: #fce4ec; color: vars.$color-error; }
   &.expired   { background: vars.$color-warn-bg; color: vars.$color-warn-text; }

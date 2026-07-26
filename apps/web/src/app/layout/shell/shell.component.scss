@@ -54,6 +54,11 @@ mat-nav-list a {
 }
 
 // ── Toolbar ───────────────────────────────────────────────────────────────────
+mat-toolbar {
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
 .toolbar-spacer { flex: 1; }
 
 .toolbar-profile {
@@ -66,8 +71,8 @@ mat-nav-list a {
   font-size: 32px;
   width: 32px;
   height: 32px;
-  color: vars.$color-white;
-  opacity: 0.85;
+  color: vars.$color-dark-navy;
+  opacity: 0.8;
 }
 
 .profile-text {
@@ -79,21 +84,21 @@ mat-nav-list a {
 .profile-name {
   font-size: 13px;
   font-weight: 600;
-  color: vars.$color-white;
+  color: vars.$color-dark-navy;
 }
 
 .profile-role {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(11, 31, 58, 0.6);
   text-transform: capitalize;
 }
 
 .logout-btn {
-  --mdc-icon-button-icon-color: #{vars.$color-white};
-  --mat-icon-button-state-layer-color: #{vars.$color-white};
-  color: vars.$color-white;
+  --mdc-icon-button-icon-color: #{vars.$color-dark-navy};
+  --mat-icon-button-state-layer-color: #{vars.$color-dark-navy};
+  color: vars.$color-dark-navy;
   margin-left: 4px;
-  opacity: 0.85;
+  opacity: 0.8;
 
   &:hover { opacity: 1; }
 }
