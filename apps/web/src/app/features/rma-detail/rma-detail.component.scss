@@ -1,0 +1,55 @@
+@use '../../../../../styles/variables' as vars;
+
+:host { display: block; max-width: 900px; }
+
+.back-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+  color: vars.$color-primary;
+  text-decoration: none;
+
+  &:hover { opacity: 0.8; }
+}
+
+.back-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.detail-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.section-heading {
+  margin-top: 24px;
+  color: vars.$color-dark-navy;
+}
+
+.empty-state {
+  color: var(--color-muted);
+}
+
+.receipt-table {
+  width: 100%;
+}
+
+.receipt-success {
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.receipt-rejected {
+  color: vars.$color-error;
+  font-weight: 500;
+}
+
+.rejection-reason-cell {
+  font-size: 13px;
+  color: vars.$color-error;
+}

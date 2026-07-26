@@ -1,0 +1,75 @@
+@use '../../../../../styles/variables' as vars;
+
+:host { display: block; }
+
+.receive-container {
+  max-width: 600px;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+  color: vars.$color-primary;
+  text-decoration: none;
+
+  &:hover { opacity: 0.8; }
+}
+
+.back-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.rma-info-card {
+  background: vars.$color-surface;
+}
+
+.receive-card {
+  margin-top: 16px;
+}
+
+.receive-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.action-row {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-spinner {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.result-content {
+  padding-top: 12px;
+}
+
+.instruction-text {
+  color: vars.$color-text-body;
+  font-size: 14px;
+}
+
+.rejection-message {
+  color: vars.$color-error;
+}
+
+.try-again-hint {
+  color: vars.$color-text-body;
+  font-size: 13px;
+}
+
+.try-again-btn {
+  margin-top: 8px;
+}
+
+.back-to-list {
+  margin-top: 16px;
+}

@@ -1,0 +1,58 @@
+@use '../../../../../styles/variables' as vars;
+
+:host {
+  display: block;
+  height: 100vh;
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 220px;
+  padding: 16px 0;
+  background: vars.$color-dark-navy;
+  color: vars.$color-white;
+}
+
+.sidenav-logo {
+  padding: 16px;
+  font-weight: 700;
+  font-size: 15px;
+  color: vars.$color-white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 8px;
+}
+
+mat-nav-list a {
+  color: rgba(255, 255, 255, 0.85);
+
+  &.active-link {
+    color: vars.$color-mint;
+    background: rgba(139, 221, 214, 0.1);
+
+    mat-icon { color: vars.$color-mint; }
+  }
+}
+
+.toolbar-spacer {
+  flex: 1;
+}
+
+.user-info {
+  font-size: 14px;
+  margin-right: 12px;
+  color: vars.$color-white;
+}
+
+.user-role {
+  opacity: 0.75;
+  font-size: 12px;
+}
+
+.page-content {
+  padding: 24px;
+  background: vars.$color-surface;
+  min-height: calc(100% - 64px);
+}

@@ -1,0 +1,100 @@
+<div class="receive-container">
+
+  <a routerLink="/rmas" class="back-link">
+    <mat-icon class="back-icon">arrow_back</mat-icon> Back to Returns
+  </a>
+
+  @if (loadingRma()) {
+    <p>Loading RMA…</p>
+  }
+
+  @if (rma(); as rma) {
+    <mat-card class="rma-info-card">
+      <mat-card-header>
+        <mat-card-title>{{ rma.rmaNumber }}</mat-card-title>
+        <mat-card-subtitle>{{ rma.customerName }} — {{ rma.deviceModel }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Reason:</strong> {{ rma.returnReason | returnReason }}</p>
+        @if (rma.expectedSerialNumber) {
+          <p><strong>Expected serial:</strong> <code>{{ rma.expectedSerialNumber }}</code></p>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    @if (!result()) {
+      <mat-card class="receive-card">
+        <mat-card-header>
+          <mat-card-title>Receive Device</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="form" (ngSubmit)="submit()" class="receive-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Device serial number *</mat-label>
+              <input matInput formControlName="receivedSerialNumber" placeholder="Scan or type serial" />
+              <mat-hint>Scan barcode or type manually</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Notes (optional)</mat-label>
+              <input matInput formControlName="notes" placeholder="e.g. Box damaged on arrival" />
+            </mat-form-field>
+
+            <div class="action-row">
+              <button mat-stroked-button type="button" routerLink="/rmas">Cancel</button>
+              <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || submitting()">
+                @if (submitting()) {
+                  <mat-spinner diameter="18" class="btn-spinner" />
+                }
+                {{ submitting() ? 'Receiving…' : 'Receive →' }}
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    }
+
+    @if (result(); as receipt) {
+      <mat-card [class]="isSuccess ? 'result-card-success' : 'result-card-rejected'" class="receive-card">
+        <mat-card-header>
+          <mat-card-title>
+            @if (isSuccess) { Device Received } @else { Receipt Rejected }
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="result-content">
+          <p><strong>Serial:</strong> {{ receipt.receivedSerialNumber }}</p>
+
+          @if (isSuccess && receipt.disposition) {
+            <p>
+              <strong>Disposition:</strong>
+              <app-disposition-badge [disposition]="receipt.disposition" />
+            </p>
+            <p class="instruction-text">
+              @switch (receipt.disposition) {
+                @case ('RESTOCKED') { Place device on the <strong>resale shelf</strong>. }
+                @case ('IN_EVALUATION') { Route device to the <strong>evaluation bench</strong>. }
+                @case ('RECYCLED') { Send device to the <strong>recycle bin</strong>. A credit will be issued. }
+                @case ('REPLACEMENT_ISSUED') { Device received. A <strong>replacement shipment</strong> will be issued to the customer. }
+              }
+            </p>
+          }
+
+          @if (!isSuccess) {
+            <p class="rejection-message">{{ receipt.rejectionReason }}</p>
+            <p class="try-again-hint">The RMA remains open. Correct the issue and try again, or contact your supervisor.</p>
+
+            <button mat-stroked-button (click)="result.set(null)" class="try-again-btn">
+              Try Again
+            </button>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      @if (isSuccess) {
+        <div class="back-to-list">
+          <a routerLink="/rmas" mat-flat-button>← Back to Returns List</a>
+        </div>
+      }
+    }
+  }
+</div>

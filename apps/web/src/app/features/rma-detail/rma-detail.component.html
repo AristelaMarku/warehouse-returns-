@@ -1,0 +1,82 @@
+<a routerLink="/rmas" class="back-link">
+  <mat-icon class="back-icon">arrow_back</mat-icon> Back to Returns
+</a>
+
+@if (loading()) { <p>Loading…</p> }
+
+@if (rma(); as rma) {
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ rma.rmaNumber }}</mat-card-title>
+      <mat-card-subtitle>
+        <app-status-badge [status]="rma.status" />
+        @if (rma.disposition) { &nbsp; <app-disposition-badge [disposition]="rma.disposition" /> }
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="detail-grid">
+      <div><strong>Customer</strong><br>{{ rma.customerName }}</div>
+      <div><strong>Device</strong><br>{{ rma.deviceModel }}</div>
+      <div><strong>Return Reason</strong><br>{{ rma.returnReason | returnReason }}</div>
+      <div><strong>Expected Serial</strong><br>{{ rma.expectedSerialNumber ?? '— (any accepted)' }}</div>
+      <div><strong>Created</strong><br>{{ rma.createdAt | date: 'MMM d, yyyy h:mm a' }}</div>
+      <div><strong>Expires</strong><br>{{ rma.expiresAt | date: 'MMM d, yyyy' }}</div>
+    </mat-card-content>
+
+    @if (rma.status === RmaStatus.OPEN) {
+      <mat-card-actions>
+        <a mat-flat-button color="primary" [routerLink]="['/rmas', rma.id, 'receive']">
+          Receive Device →
+        </a>
+      </mat-card-actions>
+    }
+  </mat-card>
+
+  <h3 class="section-heading">Receipt History</h3>
+
+  @if (receipts.length === 0) {
+    <p class="empty-state">No receipt attempts yet.</p>
+  } @else {
+    <table mat-table [dataSource]="receipts" class="mat-elevation-z1 receipt-table">
+
+      <ng-container matColumnDef="receivedAt">
+        <th mat-header-cell *matHeaderCellDef>Received At</th>
+        <td mat-cell *matCellDef="let r">{{ r.receivedAt | date: 'MMM d, h:mm a' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="serial">
+        <th mat-header-cell *matHeaderCellDef>Serial</th>
+        <td mat-cell *matCellDef="let r"><code>{{ r.receivedSerialNumber }}</code></td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let r">
+          @if (r.status === ReceiptStatus.SUCCESS) {
+            <span class="receipt-success">Success</span>
+          } @else {
+            <span class="receipt-rejected">Rejected</span>
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="disposition">
+        <th mat-header-cell *matHeaderCellDef>Disposition</th>
+        <td mat-cell *matCellDef="let r">
+          @if (r.disposition) { <app-disposition-badge [disposition]="r.disposition" /> }
+          @else { — }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="rejectionReason">
+        <th mat-header-cell *matHeaderCellDef>Rejection Reason</th>
+        <td mat-cell *matCellDef="let r" class="rejection-reason-cell">
+          {{ r.rejectionReason ?? '—' }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="receiptColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: receiptColumns;"></tr>
+    </table>
+  }
+}

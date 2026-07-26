@@ -1,0 +1,44 @@
+{
+  "name": "@warehouse/web",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "ng serve --port 4200",
+    "build": "ng build",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@angular/animations": "^19.0.0",
+    "@angular/cdk": "^19.0.0",
+    "@angular/common": "^19.0.0",
+    "@angular/compiler": "^19.0.0",
+    "@angular/core": "^19.0.0",
+    "@angular/forms": "^19.0.0",
+    "@angular/material": "^19.0.0",
+    "@angular/platform-browser": "^19.0.0",
+    "@angular/platform-browser-dynamic": "^19.0.0",
+    "@angular/router": "^19.0.0",
+    "@warehouse/shared": "*",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^19.0.0",
+    "@angular/cli": "^19.0.0",
+    "@angular/compiler-cli": "^19.0.0",
+    "@types/jest": "^29.0.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0",
+    "jest-preset-angular": "^14.0.0",
+    "typescript": "~5.6.0"
+  },
+  "jest": {
+    "preset": "jest-preset-angular",
+    "setupFilesAfterFramework": ["<rootDir>/setup-jest.ts"],
+    "moduleNameMapper": {
+      "^@warehouse/shared$": "<rootDir>/../../libs/shared/src/index.ts"
+    }
+  }
+}

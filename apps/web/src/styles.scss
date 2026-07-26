@@ -1,0 +1,62 @@
+@use '@angular/material' as mat;
+@use 'styles/variables' as vars;
+
+@include mat.core();
+
+$warehouse-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$cyan-palette,
+  ),
+  typography: (
+    brand-family: 'Roboto',
+    bold-weight: 900,
+  ),
+  density: (
+    scale: 0,
+  ),
+));
+
+:root {
+  @include mat.all-component-themes($warehouse-theme);
+  // Brand color overrides on Material system tokens
+  --mat-sys-primary: #{vars.$color-primary};
+  --mat-sys-on-primary: #{vars.$color-white};
+  --mat-sys-surface: #{vars.$color-white};
+  --mat-toolbar-container-background-color: #{vars.$color-primary};
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: vars.$color-surface;
+}
+
+// ── Status badge variants (shared across status-badge component) ──────────────
+.status-chip {
+  &.open      { background: rgba(0, 87, 187, 0.1); color: vars.$color-primary; }
+  &.received  { background: rgba(139, 221, 214, 0.3); color: vars.$color-dark-navy; }
+  &.cancelled { background: #fce4ec; color: vars.$color-error; }
+  &.expired   { background: vars.$color-warn-bg; color: vars.$color-warn-text; }
+}
+
+// ── Disposition badge variants ────────────────────────────────────────────────
+.disposition-chip {
+  &.restocked           { background: rgba(139, 221, 214, 0.25); color: vars.$color-dark-navy; }
+  &.in-evaluation       { background: vars.$color-warn-bg; color: vars.$color-warn-text; }
+  &.recycled            { background: #f3e5f5; color: #6a1b9a; }
+  &.replacement-issued  { background: rgba(0, 87, 187, 0.1); color: vars.$color-primary; }
+}
+
+// ── Receive result cards ──────────────────────────────────────────────────────
+.result-card-success {
+  border-left: 4px solid vars.$color-mint;
+  background: rgba(139, 221, 214, 0.1);
+}
+
+.result-card-rejected {
+  border-left: 4px solid #f44336;
+  background: vars.$color-error-bg;
+}

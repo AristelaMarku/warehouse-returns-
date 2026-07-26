@@ -1,0 +1,25 @@
+// Brand palette
+$color-primary:    #0057BB;
+$color-dark-navy:  #0B1F3A;
+$color-mint:       #8bddd6;
+$color-white:      #FFFFFF;
+$color-surface:    #F3F5F7;
+
+// Semantic aliases
+$color-error:      #c62828;
+$color-error-bg:   #fdf4f4;
+$color-warn-text:  #e65100;
+$color-warn-bg:    #fff3e0;
+$color-muted:      #9e9e9e;
+$color-text-body:  #555;
+
+// CSS custom properties (consumed by components via var())
+:root {
+  --color-primary:    #{$color-primary};
+  --color-dark-navy:  #{$color-dark-navy};
+  --color-mint:       #{$color-mint};
+  --color-white:      #{$color-white};
+  --color-surface:    #{$color-surface};
+  --color-error:      #{$color-error};
+  --color-muted:      #{$color-muted};
+}

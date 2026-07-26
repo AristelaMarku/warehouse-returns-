@@ -1,0 +1,82 @@
+<div class="page-header">
+  <h2>Open Returns</h2>
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search RMA, customer, device, or serial</mat-label>
+    <input matInput [formControl]="searchCtrl" />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</div>
+
+@if (loading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+@if (!loading() && rmas().length === 0) {
+  <div class="empty-state">
+    <mat-icon class="empty-icon">assignment_turned_in</mat-icon>
+    <p>No open returns. All caught up!</p>
+  </div>
+} @else {
+  <table mat-table [dataSource]="rmas()" class="mat-elevation-z2 full-width">
+
+    <ng-container matColumnDef="rmaNumber">
+      <th mat-header-cell *matHeaderCellDef>RMA #</th>
+      <td mat-cell *matCellDef="let rma">
+        <a class="rma-link" (click)="viewDetail(rma)">{{ rma.rmaNumber }}</a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="customerName">
+      <th mat-header-cell *matHeaderCellDef>Customer</th>
+      <td mat-cell *matCellDef="let rma">{{ rma.customerName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="deviceModel">
+      <th mat-header-cell *matHeaderCellDef>Device</th>
+      <td mat-cell *matCellDef="let rma">{{ rma.deviceModel }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="returnReason">
+      <th mat-header-cell *matHeaderCellDef>Reason</th>
+      <td mat-cell *matCellDef="let rma">{{ rma.returnReason | returnReason }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let rma">
+        <app-status-badge [status]="rma.status" />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expiresAt">
+      <th mat-header-cell *matHeaderCellDef>Expires</th>
+      <td mat-cell *matCellDef="let rma">
+        <span [class.expiring-soon]="isExpiringSoon(rma)">
+          {{ rma.expiresAt | date: 'MMM d' }}
+          @if (isExpiringSoon(rma)) { ⚠️ }
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let rma">
+        @if (rma.status === RmaStatus.OPEN) {
+          <button mat-flat-button color="primary" (click)="receive(rma)">
+            Receive
+          </button>
+        }
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+  </table>
+
+  <mat-paginator
+    [length]="total()"
+    [pageSize]="20"
+    [pageSizeOptions]="[10, 20, 50]"
+    (page)="onPage($event)"
+  />
+}
