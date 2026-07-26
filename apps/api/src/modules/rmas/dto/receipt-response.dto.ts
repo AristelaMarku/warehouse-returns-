@@ -9,6 +9,7 @@ export class ReceiptResponseDto {
   @ApiProperty() rmaId: string;
   @ApiProperty() rmaNumber: string;
   @ApiProperty() receivedSerialNumber: string;
+  @ApiPropertyOptional() notes: string | null;
   @ApiProperty({ enum: ReceiptStatus }) status: ReceiptStatus;
   @ApiPropertyOptional({ enum: Disposition }) disposition: Disposition | null;
   @ApiPropertyOptional() rejectionReason: string | null;
@@ -21,6 +22,7 @@ export class ReceiptResponseDto {
     dto.rmaId = receipt.rmaId;
     dto.rmaNumber = rma.rmaNumber;
     dto.receivedSerialNumber = receipt.receivedSerialNumber;
+    dto.notes = receipt.notes;
     dto.status = receipt.status;
     dto.disposition = receipt.disposition;
     dto.rejectionReason = receipt.rejectionReason;

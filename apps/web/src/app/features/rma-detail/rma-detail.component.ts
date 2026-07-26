@@ -11,7 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RmaApiService } from '../../core/services/rma-api.service';
 import { AuthService } from '../../core/auth/auth.service';
-import { RmaModel } from '../../core/models/rma.model';
+import { AuditLogEntry, RmaModel } from '../../core/models/rma.model';
 import { ReceiptModel } from '../../core/models/receipt.model';
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge.component';
 import { DispositionBadgeComponent } from '../../shared/components/disposition-badge/disposition-badge.component';
@@ -38,7 +38,9 @@ export class RmaDetailComponent implements OnInit {
 
   protected readonly rma = signal<RmaModel | null>(null);
   protected readonly loading = signal(true);
-  protected readonly receiptColumns = ['receivedAt', 'serial', 'status', 'disposition', 'rejectionReason', 'receivedBy'];
+  protected readonly auditLog = signal<AuditLogEntry[]>([]);
+  protected readonly receiptColumns = ['receivedAt', 'serial', 'status', 'disposition', 'rejectionReason', 'notes', 'receivedBy'];
+  protected readonly auditColumns = ['occurredAt', 'action', 'actor', 'changes'];
 
   protected readonly RmaStatus = RmaStatus;
   protected readonly ReceiptStatus = ReceiptStatus;
@@ -56,13 +58,24 @@ export class RmaDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.api.getRma(id).subscribe({
-      next: (rma) => { this.rma.set(rma); this.loading.set(false); },
+      next: (rma) => {
+        this.rma.set(rma);
+        this.loading.set(false);
+        if (this.isSupervisor()) {
+          this.api.getAuditLog(id).subscribe({ next: (log) => this.auditLog.set(log) });
+        }
+      },
       error: () => this.loading.set(false),
     });
   }
 
   protected get receipts(): ReceiptModel[] {
     return (this.rma()?.receipts ?? []) as ReceiptModel[];
+  }
+
+  protected formatState(state: Record<string, unknown> | null): string {
+    if (!state) return '—';
+    return Object.entries(state).map(([k, v]) => `${k}: ${v}`).join(' · ');
   }
 
   protected confirmExtend(): void {

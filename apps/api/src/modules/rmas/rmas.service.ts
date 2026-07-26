@@ -37,7 +37,17 @@ export class RmasService {
     const qb = this.rmaRepository.createQueryBuilder('rma');
 
     if (status) {
-      qb.andWhere('rma.status = :status', { status });
+      if (status === RmaStatus.EXPIRED) {
+        qb.andWhere(`rma.status = 'OPEN'`).andWhere(
+          `"rma"."created_at" + ("rma"."eligibility_window_days" * INTERVAL '1 day') <= NOW()`,
+        );
+      } else if (status === RmaStatus.OPEN) {
+        qb.andWhere(`rma.status = 'OPEN'`).andWhere(
+          `"rma"."created_at" + ("rma"."eligibility_window_days" * INTERVAL '1 day') > NOW()`,
+        );
+      } else {
+        qb.andWhere('rma.status = :status', { status });
+      }
     }
 
     if (search) {
@@ -90,6 +100,7 @@ export class RmasService {
       const receipt = manager.create(ReceiptEntity, {
         rmaId: rma.id,
         receivedSerialNumber: dto.receivedSerialNumber,
+        notes: dto.notes ?? null,
         receivedByUserId: actor.id,
         status: validationResult.ok ? ReceiptStatus.SUCCESS : ReceiptStatus.REJECTED,
         disposition: validationResult.ok ? validationResult.disposition : null,

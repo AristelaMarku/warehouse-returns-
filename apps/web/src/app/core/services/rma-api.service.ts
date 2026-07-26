@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RmaStatus } from '@warehouse/shared';
 import { environment } from '../../../environments/environment';
-import { PaginatedRmas, RmaModel } from '../models/rma.model';
+import { AuditLogEntry, PaginatedRmas, RmaModel } from '../models/rma.model';
 import { PaginatedRmaReceiptGroups, ReceiptModel } from '../models/receipt.model';
 import { ReceiptStatus } from '@warehouse/shared';
 
@@ -50,8 +50,8 @@ export class RmaApiService {
     return this.http.patch<RmaModel>(`${this.base}/${rmaId}/extend-window`, {}, { params });
   }
 
-  getAuditLog(rmaId: string): Observable<unknown[]> {
-    return this.http.get<unknown[]>(`${this.base}/${rmaId}/audit`);
+  getAuditLog(rmaId: string): Observable<AuditLogEntry[]> {
+    return this.http.get<AuditLogEntry[]>(`${this.base}/${rmaId}/audit`);
   }
 
   listReceipts(page = 1, limit = 20, status?: ReceiptStatus): Observable<PaginatedRmaReceiptGroups> {

@@ -54,6 +54,32 @@
   color: vars.$color-error;
 }
 
+// ── Audit log ─────────────────────────────────────────────────────────────────
+.audit-table {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.audit-action {
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(11, 31, 58, 0.07);
+  color: vars.$color-dark-navy;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.audit-changes {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.audit-before { color: rgba(0, 0, 0, 0.45); }
+.audit-arrow  { margin: 0 6px; color: vars.$color-mint; font-weight: 700; }
+.audit-after  { color: vars.$color-dark-navy; font-weight: 500; }
+
 // ── Extend window form ────────────────────────────────────────────────────────
 .card-actions {
   display: flex;

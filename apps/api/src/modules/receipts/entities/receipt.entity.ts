@@ -35,6 +35,9 @@ export class ReceiptEntity {
   @Column({ name: 'rejection_reason', type: 'varchar', length: 512, nullable: true })
   rejectionReason: string | null;
 
+  @Column({ type: 'varchar', length: 512, nullable: true })
+  notes: string | null;
+
   @CreateDateColumn({ name: 'received_at', type: 'timestamptz' })
   receivedAt: Date;
 

@@ -110,6 +110,11 @@
               </td>
             </ng-container>
 
+            <ng-container matColumnDef="notes">
+              <th mat-header-cell *matHeaderCellDef>Notes</th>
+              <td mat-cell *matCellDef="let a">{{ a.notes ?? '—' }}</td>
+            </ng-container>
+
             <ng-container matColumnDef="receivedBy">
               <th mat-header-cell *matHeaderCellDef>Received By</th>
               <td mat-cell *matCellDef="let a">{{ a.receivedByDisplayName }}</td>

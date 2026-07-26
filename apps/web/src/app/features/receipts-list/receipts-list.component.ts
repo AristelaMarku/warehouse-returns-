@@ -34,7 +34,7 @@ export class ReceiptsListComponent implements OnInit {
   private readonly router = inject(Router);
 
   protected readonly columns = ['expand', 'latestReceivedAt', 'rmaNumber', 'customerName', 'deviceModel', 'latestStatus', 'attemptCount'];
-  protected readonly attemptColumns = ['receivedAt', 'serial', 'status', 'disposition', 'rejectionReason', 'receivedBy'];
+  protected readonly attemptColumns = ['receivedAt', 'serial', 'status', 'disposition', 'rejectionReason', 'notes', 'receivedBy'];
 
   protected readonly rmaGroups = signal<RmaReceiptGroup[]>([]);
   protected readonly total = signal(0);

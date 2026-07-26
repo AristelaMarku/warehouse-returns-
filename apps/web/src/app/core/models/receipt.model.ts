@@ -5,6 +5,7 @@ export interface ReceiptModel {
   receiptId: string;
   receivedAt: string;
   receivedSerialNumber: string;
+  notes: string | null;
   status: ReceiptStatus;
   disposition: Disposition | null;
   rejectionReason: string | null;
@@ -16,6 +17,7 @@ export interface ReceiptAttempt {
   id: string;
   receivedAt: string;
   receivedSerialNumber: string;
+  notes: string | null;
   status: ReceiptStatus;
   disposition: Disposition | null;
   rejectionReason: string | null;

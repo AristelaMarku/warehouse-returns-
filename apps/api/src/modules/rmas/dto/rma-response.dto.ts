@@ -6,6 +6,7 @@ export class RmaReceiptSummary {
   receiptId: string;
   receivedAt: string;
   receivedSerialNumber: string;
+  notes: string | null;
   status: ReceiptStatus;
   disposition: Disposition | null;
   rejectionReason: string | null;
@@ -38,21 +39,26 @@ export class RmaResponseDto {
     dto.customerEmail = rma.customerEmail;
     dto.deviceModel = rma.deviceModel;
     dto.returnReason = rma.returnReason;
-    dto.status = rma.status;
     dto.disposition = rma.disposition;
     dto.expectedSerialNumber = rma.expectedSerialNumber;
     dto.eligibilityWindowDays = rma.eligibilityWindowDays;
-    const expiresAt = new Date(rma.createdAt);
-    expiresAt.setDate(expiresAt.getDate() + rma.eligibilityWindowDays);
-    dto.expiresAt = expiresAt.toISOString();
     dto.notes = rma.notes;
     dto.createdAt = rma.createdAt.toISOString();
     dto.updatedAt = rma.updatedAt.toISOString();
     dto.closedAt = rma.closedAt ? rma.closedAt.toISOString() : null;
+
+    const expiresAt = new Date(rma.createdAt);
+    expiresAt.setDate(expiresAt.getDate() + rma.eligibilityWindowDays);
+    dto.expiresAt = expiresAt.toISOString();
+    dto.status = rma.status === RmaStatus.OPEN && new Date() > expiresAt
+      ? RmaStatus.EXPIRED
+      : rma.status;
+
     dto.receipts = (rma.receipts ?? []).map((r) => ({
       receiptId: r.id,
       receivedAt: r.receivedAt.toISOString(),
       receivedSerialNumber: r.receivedSerialNumber,
+      notes: r.notes,
       status: r.status,
       disposition: r.disposition,
       rejectionReason: r.rejectionReason,

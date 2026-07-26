@@ -20,6 +20,15 @@ export interface RmaModel {
   receipts?: ReceiptModel[];
 }
 
+export interface AuditLogEntry {
+  id: string;
+  action: string;
+  actorUser: { displayName: string } | null;
+  beforeState: Record<string, unknown> | null;
+  afterState: Record<string, unknown> | null;
+  occurredAt: string;
+}
+
 export interface PaginatedRmas {
   data: RmaModel[];
   meta: { total: number; page: number; limit: number; totalPages: number };
