@@ -15,7 +15,7 @@
 }
 
 <div class="table-wrapper">
-  <table mat-table [dataSource]="rmaGroups()">
+  <table mat-table [dataSource]="rmaGroups()" [multiTemplateDataRows]="true">
 
     <ng-container matColumnDef="expand">
       <th mat-header-cell *matHeaderCellDef></th>
@@ -127,7 +127,7 @@
         (click)="toggle(row.rmaId)"
         class="summary-row">
     </tr>
-    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']; when: isDetailRow" class="detail-row"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell empty-state" [attr.colspan]="columns.length">
