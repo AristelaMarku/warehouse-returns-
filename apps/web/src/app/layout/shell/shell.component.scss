@@ -89,9 +89,11 @@ mat-nav-list a {
 }
 
 .logout-btn {
+  --mdc-icon-button-icon-color: #{vars.$color-white};
+  --mat-icon-button-state-layer-color: #{vars.$color-white};
   color: vars.$color-white;
-  opacity: 0.75;
   margin-left: 4px;
+  opacity: 0.85;
 
   &:hover { opacity: 1; }
 }

@@ -29,6 +29,15 @@ export class AuthService {
   readonly currentUser = this._currentUser.asReadonly();
   readonly isLoggedIn = computed(() => this._currentUser() !== null);
 
+  constructor() {
+    if (this.getToken()) {
+      this.http.get<UserProfile>(`${this.baseUrl}/auth/me`).subscribe({
+        next: (user) => this._currentUser.set(user),
+        error: () => this.logout(),
+      });
+    }
+  }
+
   login(username: string, password: string): Observable<AuthResponse> {
     return this.http
       .post<AuthResponse>(`${this.baseUrl}/auth/login`, { username, password })
