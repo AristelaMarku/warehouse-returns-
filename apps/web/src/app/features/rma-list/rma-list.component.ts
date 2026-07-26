@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DatePipe } from '@angular/common';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { RmaStatus } from '@warehouse/shared';
 import { RmaApiService } from '../../core/services/rma-api.service';
@@ -27,7 +28,7 @@ import { ReturnReasonPipe } from '../../shared/pipes/return-reason.pipe';
     MatTableModule, MatPaginatorModule, MatFormFieldModule,
     MatInputModule, MatIconModule, MatButtonModule,
     MatProgressBarModule, MatTooltipModule,
-    StatusBadgeComponent, ReturnReasonPipe,
+    StatusBadgeComponent, ReturnReasonPipe, DatePipe,
   ],
   templateUrl: './rma-list.component.html',
   styleUrl: './rma-list.component.scss',
