@@ -33,7 +33,6 @@ export const routes: Routes = [
       },
       {
         path: 'receipts',
-        canActivate: [supervisorGuard],
         loadComponent: () =>
           import('./features/receipts-list/receipts-list.component').then(
             (m) => m.ReceiptsListComponent,
