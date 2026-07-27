@@ -10,6 +10,7 @@ import { PaginatorComponent } from '../../shared/components/paginator/paginator.
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DatePipe } from '@angular/common';
@@ -27,7 +28,7 @@ import { ReturnReasonPipe } from '../../shared/pipes/return-reason.pipe';
   imports: [
     ReactiveFormsModule,
     MatTableModule, MatFormFieldModule,
-    MatInputModule, MatIconModule, MatButtonModule,
+    MatInputModule, MatIconModule, MatButtonModule, MatButtonToggleModule,
     MatProgressBarModule, MatTooltipModule,
     StatusBadgeComponent, ReturnReasonPipe, DatePipe,
     PaginatorComponent,
@@ -48,6 +49,15 @@ export class RmaListComponent implements OnInit {
   protected readonly searchCtrl = new FormControl('');
 
   protected readonly RmaStatus = RmaStatus;
+  protected readonly statusFilter = signal<RmaStatus | 'ALL'>('ALL');
+
+  protected readonly filterOptions: { label: string; value: RmaStatus | 'ALL' }[] = [
+    { label: 'All',       value: 'ALL' },
+    { label: 'Open',      value: RmaStatus.OPEN },
+    { label: 'Expired',   value: RmaStatus.EXPIRED },
+    { label: 'Received',  value: RmaStatus.RECEIVED },
+    { label: 'Cancelled', value: RmaStatus.CANCELLED },
+  ];
 
   protected isExpiringSoon(rma: RmaModel): boolean {
     const expires = new Date(rma.expiresAt);
@@ -63,11 +73,18 @@ export class RmaListComponent implements OnInit {
       .subscribe(() => { this.page.set(1); this.load(); });
   }
 
+  protected onFilterChange(value: RmaStatus | 'ALL'): void {
+    this.statusFilter.set(value);
+    this.page.set(1);
+    this.load();
+  }
+
   protected load(): void {
     this.loading.set(true);
+    const filter = this.statusFilter();
     this.api
       .listRmas({
-        status: RmaStatus.OPEN,
+        status: filter === 'ALL' ? undefined : filter,
         search: this.searchCtrl.value ?? undefined,
         page: this.page(),
         limit: this.limit(),

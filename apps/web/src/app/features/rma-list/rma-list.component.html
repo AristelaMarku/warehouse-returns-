@@ -1,11 +1,19 @@
 <div class="page-header">
-  <h2>Open Returns</h2>
+  <h2>Returns</h2>
   <mat-form-field appearance="outline" class="search-field">
     <mat-label>Search RMA, customer, device, or serial</mat-label>
     <input matInput [formControl]="searchCtrl" />
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
 </div>
+
+<mat-button-toggle-group class="status-filter"
+  [value]="statusFilter()"
+  (change)="onFilterChange($event.value)">
+  @for (opt of filterOptions; track opt.value) {
+    <mat-button-toggle [value]="opt.value">{{ opt.label }}</mat-button-toggle>
+  }
+</mat-button-toggle-group>
 
 @if (loading()) {
   <mat-progress-bar mode="indeterminate" />
@@ -14,7 +22,7 @@
 @if (!loading() && rmas().length === 0) {
   <div class="empty-state">
     <mat-icon class="empty-icon">assignment_turned_in</mat-icon>
-    <p>No open returns. All caught up!</p>
+    <p>No returns found for the selected filter.</p>
   </div>
 } @else {
   <table mat-table [dataSource]="rmas()" class="mat-elevation-z2 full-width">
