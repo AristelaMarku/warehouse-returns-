@@ -43,8 +43,8 @@ describe('RmasService', () => {
   beforeEach(async () => {
     mockManager = {
       findOne: jest.fn(),
-      create: jest.fn((_, data) => ({ id: 'receipt-uuid-001', receivedAt: new Date(), ...data })),
-      save: jest.fn(async (_, entity) => entity),
+      create: jest.fn((_, data) => ({ id: 'receipt-uuid-001', receivedAt: new Date(), ...data })) as any,
+      save: jest.fn(async (_, entity) => entity) as any,
     };
 
     const module: TestingModule = await Test.createTestingModule({
