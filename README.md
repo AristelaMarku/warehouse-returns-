@@ -140,9 +140,9 @@ warehouse-project/
 |---------------------------------------------------|-------|
 | Planning & data model design                      | ~1h   |
 | Backend (entities, migrations, business logic, tests) | ~1h   |
-| Frontend (components, routing, forms, styling)    | ~1h   |
+| Frontend (components, routing, forms, styling)    | ~2h   |
 | Integration, seed, README                         | ~1h   |
-| **Total**                                         | **~4h** |
+| **Total**                                         | **~5h** |
 
 ## What Would Come Next
 
