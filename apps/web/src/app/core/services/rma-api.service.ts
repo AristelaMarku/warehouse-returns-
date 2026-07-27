@@ -13,7 +13,7 @@ export interface ReceiveDevicePayload {
 }
 
 export interface RmaListQuery {
-  status?: RmaStatus;
+  status?: RmaStatus | 'ACTIVE';
   search?: string;
   page?: number;
   limit?: number;

@@ -37,7 +37,10 @@ export class RmasService {
     const qb = this.rmaRepository.createQueryBuilder('rma');
 
     if (status) {
-      if (status === RmaStatus.EXPIRED) {
+      if (status === 'ACTIVE') {
+        // Both OPEN (within window) and EXPIRED (past window) are stored as OPEN in the DB
+        qb.andWhere(`rma.status = 'OPEN'`);
+      } else if (status === RmaStatus.EXPIRED) {
         qb.andWhere(`rma.status = 'OPEN'`).andWhere(
           `"rma"."created_at" + ("rma"."eligibility_window_days" * INTERVAL '1 day') <= NOW()`,
         );

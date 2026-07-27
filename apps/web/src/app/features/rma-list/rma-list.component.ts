@@ -49,14 +49,15 @@ export class RmaListComponent implements OnInit {
   protected readonly searchCtrl = new FormControl('');
 
   protected readonly RmaStatus = RmaStatus;
-  protected readonly statusFilter = signal<RmaStatus | 'ALL'>('ALL');
+  protected readonly statusFilter = signal<RmaStatus | 'ACTIVE' | 'ALL'>('ACTIVE');
 
-  protected readonly filterOptions: { label: string; value: RmaStatus | 'ALL' }[] = [
-    { label: 'All',       value: 'ALL' },
-    { label: 'Open',      value: RmaStatus.OPEN },
-    { label: 'Expired',   value: RmaStatus.EXPIRED },
-    { label: 'Received',  value: RmaStatus.RECEIVED },
-    { label: 'Cancelled', value: RmaStatus.CANCELLED },
+  protected readonly filterOptions: { label: string; value: RmaStatus | 'ACTIVE' | 'ALL' }[] = [
+    { label: 'Active (Open + Expired)', value: 'ACTIVE' },
+    { label: 'Open only',               value: RmaStatus.OPEN },
+    { label: 'Expired only',            value: RmaStatus.EXPIRED },
+    { label: 'Received',                value: RmaStatus.RECEIVED },
+    { label: 'Cancelled',               value: RmaStatus.CANCELLED },
+    { label: 'All',                     value: 'ALL' },
   ];
 
   protected isExpiringSoon(rma: RmaModel): boolean {
@@ -73,7 +74,7 @@ export class RmaListComponent implements OnInit {
       .subscribe(() => { this.page.set(1); this.load(); });
   }
 
-  protected onFilterChange(value: RmaStatus | 'ALL'): void {
+  protected onFilterChange(value: RmaStatus | 'ACTIVE' | 'ALL'): void {
     this.statusFilter.set(value);
     this.page.set(1);
     this.load();
@@ -84,7 +85,7 @@ export class RmaListComponent implements OnInit {
     const filter = this.statusFilter();
     this.api
       .listRmas({
-        status: filter === 'ALL' ? undefined : filter,
+        status: filter === 'ALL' ? undefined : (filter as RmaStatus | 'ACTIVE'),
         search: this.searchCtrl.value ?? undefined,
         page: this.page(),
         limit: this.limit(),
