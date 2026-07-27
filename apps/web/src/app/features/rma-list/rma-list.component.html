@@ -7,13 +7,6 @@
   </mat-form-field>
 </div>
 
-<mat-button-toggle-group class="status-filter"
-  [value]="statusFilter()"
-  (change)="onFilterChange($event.value)">
-  @for (opt of filterOptions; track opt.value) {
-    <mat-button-toggle [value]="opt.value">{{ opt.label }}</mat-button-toggle>
-  }
-</mat-button-toggle-group>
 
 @if (loading()) {
   <mat-progress-bar mode="indeterminate" />
@@ -22,7 +15,7 @@
 @if (!loading() && rmas().length === 0) {
   <div class="empty-state">
     <mat-icon class="empty-icon">assignment_turned_in</mat-icon>
-    <p>No returns found for the selected filter.</p>
+    <p>No open or expired returns found.</p>
   </div>
 } @else {
   <table mat-table [dataSource]="rmas()" class="mat-elevation-z2 full-width">

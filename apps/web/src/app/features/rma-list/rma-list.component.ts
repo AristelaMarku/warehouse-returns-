@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, Component, OnInit, inject, signal, computed
+  ChangeDetectionStrategy, Component, OnInit, inject, signal
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,7 +10,6 @@ import { PaginatorComponent } from '../../shared/components/paginator/paginator.
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DatePipe } from '@angular/common';
@@ -28,7 +27,7 @@ import { ReturnReasonPipe } from '../../shared/pipes/return-reason.pipe';
   imports: [
     ReactiveFormsModule,
     MatTableModule, MatFormFieldModule,
-    MatInputModule, MatIconModule, MatButtonModule, MatButtonToggleModule,
+    MatInputModule, MatIconModule, MatButtonModule,
     MatProgressBarModule, MatTooltipModule,
     StatusBadgeComponent, ReturnReasonPipe, DatePipe,
     PaginatorComponent,
@@ -49,16 +48,6 @@ export class RmaListComponent implements OnInit {
   protected readonly searchCtrl = new FormControl('');
 
   protected readonly RmaStatus = RmaStatus;
-  protected readonly statusFilter = signal<RmaStatus | 'ACTIVE' | 'ALL'>('ACTIVE');
-
-  protected readonly filterOptions: { label: string; value: RmaStatus | 'ACTIVE' | 'ALL' }[] = [
-    { label: 'Active (Open + Expired)', value: 'ACTIVE' },
-    { label: 'Open only',               value: RmaStatus.OPEN },
-    { label: 'Expired only',            value: RmaStatus.EXPIRED },
-    { label: 'Received',                value: RmaStatus.RECEIVED },
-    { label: 'Cancelled',               value: RmaStatus.CANCELLED },
-    { label: 'All',                     value: 'ALL' },
-  ];
 
   protected isExpiringSoon(rma: RmaModel): boolean {
     const expires = new Date(rma.expiresAt);
@@ -74,18 +63,11 @@ export class RmaListComponent implements OnInit {
       .subscribe(() => { this.page.set(1); this.load(); });
   }
 
-  protected onFilterChange(value: RmaStatus | 'ACTIVE' | 'ALL'): void {
-    this.statusFilter.set(value);
-    this.page.set(1);
-    this.load();
-  }
-
   protected load(): void {
     this.loading.set(true);
-    const filter = this.statusFilter();
     this.api
       .listRmas({
-        status: filter === 'ALL' ? undefined : (filter as RmaStatus | 'ACTIVE'),
+        status: 'ACTIVE',
         search: this.searchCtrl.value ?? undefined,
         page: this.page(),
         limit: this.limit(),
