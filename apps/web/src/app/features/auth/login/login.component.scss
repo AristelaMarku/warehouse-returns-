@@ -27,6 +27,24 @@
   object-fit: contain;
 }
 
+.login-header {
+  text-align: center;
+  padding: 20px 24px 0;
+}
+
+.login-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: vars.$color-dark-navy;
+}
+
+.login-subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: vars.$color-muted;
+}
+
 .login-form {
   display: flex;
   flex-direction: column;
