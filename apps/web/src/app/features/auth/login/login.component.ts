@@ -31,6 +31,7 @@ export class LoginComponent {
 
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
+  protected readonly logoMissing = signal(false);
 
   protected submit(): void {
     if (this.form.invalid || this.loading()) return;

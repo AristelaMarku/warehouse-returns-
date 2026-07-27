@@ -1,8 +1,11 @@
 <div class="login-container">
   <mat-card class="login-card">
-    <div class="login-logo-wrap">
-      <img src="assets/logo.png" alt="Company logo" class="login-logo" />
-    </div>
+    @if (!logoMissing()) {
+      <div class="login-logo-wrap">
+        <img src="assets/logo.png" alt="Company logo" class="login-logo"
+             (error)="logoMissing.set(true)" />
+      </div>
+    }
 
     <mat-card-header>
       <mat-card-title>Warehouse Returns</mat-card-title>
