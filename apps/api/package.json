@@ -12,7 +12,8 @@
     "migration:generate": "npx typeorm-ts-node-commonjs migration:generate -d ormconfig.ts",
     "migration:run": "npx typeorm-ts-node-commonjs migration:run -d ormconfig.ts",
     "migration:revert": "npx typeorm-ts-node-commonjs migration:revert -d ormconfig.ts",
-    "seed": "npx ts-node src/database/seeds/seed.ts"
+    "seed": "npx ts-node src/database/seeds/seed.ts",
+    "db:reseed": "npx ts-node src/database/seeds/reseed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
