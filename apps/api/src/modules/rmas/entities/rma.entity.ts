@@ -68,7 +68,8 @@ export class RmaEntity {
 
   get expiresAt(): Date {
     const expires = new Date(this.createdAt);
-    expires.setDate(expires.getDate() + this.eligibilityWindowDays);
+    expires.setUTCDate(expires.getUTCDate() + this.eligibilityWindowDays);
+    expires.setUTCHours(23, 59, 59, 999);
     return expires;
   }
 }

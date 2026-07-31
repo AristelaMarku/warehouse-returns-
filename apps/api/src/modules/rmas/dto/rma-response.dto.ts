@@ -47,10 +47,8 @@ export class RmaResponseDto {
     dto.updatedAt = rma.updatedAt.toISOString();
     dto.closedAt = rma.closedAt ? rma.closedAt.toISOString() : null;
 
-    const expiresAt = new Date(rma.createdAt);
-    expiresAt.setDate(expiresAt.getDate() + rma.eligibilityWindowDays);
-    dto.expiresAt = expiresAt.toISOString();
-    dto.status = rma.status === RmaStatus.OPEN && new Date() > expiresAt
+    dto.expiresAt = rma.expiresAt.toISOString();
+    dto.status = rma.status === RmaStatus.OPEN && new Date() > rma.expiresAt
       ? RmaStatus.EXPIRED
       : rma.status;
 

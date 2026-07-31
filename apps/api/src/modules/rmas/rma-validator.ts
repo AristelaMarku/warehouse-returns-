@@ -15,12 +15,10 @@ export function validateForReceipt(
     return { ok: false, reason: `RMA is already closed (status: ${rma.status})` };
   }
 
-  const expiresAt = new Date(rma.createdAt);
-  expiresAt.setDate(expiresAt.getDate() + rma.eligibilityWindowDays);
-  if (now > expiresAt) {
+  if (now > rma.expiresAt) {
     return {
       ok: false,
-      reason: `RMA eligibility window expired on ${expiresAt.toISOString().split('T')[0]}`,
+      reason: `RMA eligibility window expired on ${rma.expiresAt.toISOString().split('T')[0]}`,
     };
   }
 

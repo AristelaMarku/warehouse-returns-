@@ -42,11 +42,11 @@ export class RmasService {
         qb.andWhere(`rma.status = 'OPEN'`);
       } else if (status === RmaStatus.EXPIRED) {
         qb.andWhere(`rma.status = 'OPEN'`).andWhere(
-          `"rma"."created_at" + ("rma"."eligibility_window_days" * INTERVAL '1 day') <= NOW()`,
+          `DATE("rma"."created_at") + ("rma"."eligibility_window_days" * INTERVAL '1 day') < CURRENT_DATE`,
         );
       } else if (status === RmaStatus.OPEN) {
         qb.andWhere(`rma.status = 'OPEN'`).andWhere(
-          `"rma"."created_at" + ("rma"."eligibility_window_days" * INTERVAL '1 day') > NOW()`,
+          `DATE("rma"."created_at") + ("rma"."eligibility_window_days" * INTERVAL '1 day') >= CURRENT_DATE`,
         );
       } else {
         qb.andWhere('rma.status = :status', { status });
@@ -161,9 +161,6 @@ export class RmasService {
     const rma = await this.findOne(rmaId);
     const beforeDays = rma.eligibilityWindowDays;
     rma.eligibilityWindowDays += additionalDays;
-    if (rma.status === RmaStatus.EXPIRED) {
-      rma.status = RmaStatus.OPEN;
-    }
     await this.rmaRepository.save(rma);
 
     await this.dataSource.transaction(async (manager) => {
